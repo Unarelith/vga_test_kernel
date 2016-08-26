@@ -3,7 +3,7 @@ TARGET		= myos
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-AS			= nasm
+AS			= i686-elf-as
 CC			= i686-elf-gcc
 CXX			= i686-elf-g++
 LD			= $(CC)
@@ -17,7 +17,6 @@ CONFDIR		= conf
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-ASFLAGS		= -felf32
 CFLAGS		= -ffreestanding -O2 -Wall -Wextra -std=gnu99
 CXXFLAGS	= -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -std=c++11
 LDFLAGS		= -ffreestanding -O2 -nostdlib -lgcc
