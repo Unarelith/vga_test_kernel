@@ -28,7 +28,7 @@ class VgaTextMode {
 		static const uint8_t width = 80;
 		static const uint8_t height = 25;
 		
-		/* Hardware text mode color constants. */
+		// Hardware text mode color constants
 		enum Color {
 			Black			= 0,
 			Blue			= 1,
@@ -52,7 +52,6 @@ class VgaTextMode {
 		uint8_t makeColor(Color fg, Color bg);
 		uint16_t makeVgaEntry(char c, uint8_t color);
 		
-		// Size in characters
 		size_t m_row = 0;
 		size_t m_column = 0;
 		

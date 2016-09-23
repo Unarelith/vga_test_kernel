@@ -6,3 +6,6 @@
 a.out
 *.gch
 *.bin
+*.iso
+img
+*.d

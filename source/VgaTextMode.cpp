@@ -24,8 +24,7 @@ VgaTextMode::VgaTextMode() {
 }
 
 void VgaTextMode::putEntryAt(char c, uint8_t color, size_t x, size_t y) {
-	const size_t index = y * width + x;
-	m_buffer[index] = makeVgaEntry(c, color);
+	m_buffer[x + y * width] = makeVgaEntry(c, color);
 }
 
 void VgaTextMode::printChar(char c) {

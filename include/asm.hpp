@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  vga.hpp
+ *       Filename:  asm.hpp
  *
  *    Description:  
  *
@@ -11,12 +11,17 @@
  *
  * =====================================================================================
  */
-#ifndef VGA_HPP_
-#define VGA_HPP_
+#ifndef ASM_HPP_
+#define ASM_HPP_
 
 #include <stdint.h>
 
-static inline void asm_out(uint16_t port, uint32_t val);
-static inline uint32_t asm_in(uint16_t port);
+void write_vga_reg(uint16_t port, uint8_t index, uint8_t val);
 
-#endif // VGA_HPP_
+template<typename T>
+void asm_out(uint16_t port, T val);
+
+template<typename T>
+T asm_in(uint16_t port);
+
+#endif // ASM_HPP_

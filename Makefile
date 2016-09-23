@@ -3,7 +3,7 @@ TARGET		= myos
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-AS			= i686-elf-as
+AS			= nasm
 CC			= i686-elf-gcc
 CXX			= i686-elf-g++
 LD			= $(CC)
@@ -17,9 +17,12 @@ CONFDIR		= conf
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-CFLAGS		= -ffreestanding -O2 -Wall -Wextra -std=gnu99
-CXXFLAGS	= -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -std=c++11
-LDFLAGS		= -ffreestanding -O2 -nostdlib -lgcc
+COMMONFLAGS	= -ffreestanding -O2 -Wall -Wextra -masm=intel -MD
+
+ASFLAGS		= -felf32
+CFLAGS		= $(COMMONFLAGS) -std=gnu99
+CXXFLAGS	= $(COMMONFLAGS) -std=c++11 -fno-exceptions -fno-rtti
+LDFLAGS		= $(COMMONFLAGS) -nostdlib -lgcc
 
 CFLAGS		+= -I$(INCDIR)
 CXXFLAGS	+= -I$(INCDIR)
@@ -64,10 +67,21 @@ $(TARGET).bin: $(OFILES) $(LDFILE)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 #-------------------------------------------------------------------------------
-run:
+run: all
 #-------------------------------------------------------------------------------
 	@echo "Running..."
 	@qemu-system-i386 -kernel myos.bin
+
+#-------------------------------------------------------------------------------
+iso:
+#-------------------------------------------------------------------------------
+	@echo "Making iso..."
+	@mkdir -p iso/boot/grub
+	@cp $(TARGET).bin iso/boot/
+	@cp conf/grub.cfg iso/boot/grub
+	@grub-mkrescue -o $(TARGET).iso iso
+	@rm -rf iso
+	@echo "Done."
 
 #-------------------------------------------------------------------------------
 clean:
@@ -83,4 +97,6 @@ fclean: clean
 re: fclean all
 #-------------------------------------------------------------------------------
 
-.PHONY: run clean fclean re
+-include *.d
+
+.PHONY: run iso clean fclean re
